@@ -73,7 +73,7 @@ class MatchBuilder
         $teamInfo = $event['details']["team$teamNumber"];
         $players = [];
         foreach ($teamInfo['players'] as $playerInfo) {
-            $players[] = new Player($playerInfo['number'], $playerInfo['name']);
+            $players[] = new Player($playerInfo['number'], $playerInfo['name'], $playerInfo['position']);
         }
 
         return new Team($teamInfo['title'], $teamInfo['country'], $teamInfo['logo'], $players, $teamInfo['coach']);
@@ -103,6 +103,8 @@ class MatchBuilder
                     if ($period === 2) {
                         $this->goToBenchAllPlayers($match->getHomeTeam(), $minute);
                         $this->goToBenchAllPlayers($match->getAwayTeam(), $minute);
+                        $match->getHomeTeam()->calcPlayTimeByCategory();
+                        $match->getAwayTeam()->calcPlayTimeByCategory();
                     }
                     break;
                 case 'replacePlayer':

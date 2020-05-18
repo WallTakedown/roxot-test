@@ -13,6 +13,7 @@ class Team
     private array $players;
     private string $coach;
     private int $goals;
+    public array $playtime;
 
     public function __construct(string $name, string $country, string $logo, array $players, string $coach)
     {
@@ -24,6 +25,12 @@ class Team
         $this->players = $players;
         $this->coach = $coach;
         $this->goals = 0;
+        $this->playtime = [
+            'G' => 0,
+            'D' => 0,
+            'M' => 0,
+            'F' => 0
+        ];
     }
 
     public function getName(): string
@@ -49,6 +56,21 @@ class Team
         return array_filter($this->players, function (Player $player) {
             return $player->isPlay();
         });
+    }
+
+    public function calcPlayTimeByCategory(): void
+    {        
+        foreach ($this->players as $player)
+        {
+            if ($player->position == 'В')
+                $this->playtime['G'] += $player->getPlayTime();
+            elseif ($player->position == 'З')
+                $this->playtime['D'] += $player->getPlayTime();
+            elseif ($player->position == 'П')
+                $this->playtime['M'] += $player->getPlayTime();
+            elseif ($player->position == 'Н')
+                $this->playtime['F'] += $player->getPlayTime();
+        }
     }
 
     public function getPlayers(): array
