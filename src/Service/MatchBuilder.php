@@ -113,6 +113,18 @@ class MatchBuilder
                 case 'goal':
                     $team = $this->getTeamByName($match, $details['team']);
                     $team->addGoal();
+                    $team->getPlayer($details['playerNumber'])->scoreGoal();                    
+                    break;
+                case 'yellowCard':
+                    $team = $this->getTeamByName($match, $details['team']);
+                    $team->getPlayer($details['playerNumber'])->issueCard(1);
+                    if ($team->getPlayer($details['playerNumber'])->getCard() >= 2)
+                        $team->getPlayer($details['playerNumber'])->goToBench($minute);
+                    break;
+                case 'redCard':
+                    $team = $this->getTeamByName($match, $details['team']);
+                    $team->getPlayer($details['playerNumber'])->issueCard(2);
+                    $team->getPlayer($details['playerNumber'])->goToBench($minute);
                     break;
 
             }

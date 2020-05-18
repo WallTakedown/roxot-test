@@ -111,9 +111,11 @@
                     <th>#</th>
                     <th>Имя</th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody>                
                 {% for player in team.players %}
                     <tr>
                         <td>
@@ -123,10 +125,22 @@
                             {{ player.name }}
                         </td>
                         <td>
-                            {{ player.playTime }}’
+                            {% if player.scored %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/goal.png">                            
+                            {% endif %}
                         </td>
-                    </tr>
-                {% endfor %}
+                        <td>
+                            {% if player.card >= 2 %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/yellow_red.png">
+                            {% elseif  player.card == 1 %}
+                                <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/card.png">                            
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ player.playTime }}
+                        </td>
+                    </tr>                    
+                {% endfor %}                
                 </tbody>
             </table>
         </div>
