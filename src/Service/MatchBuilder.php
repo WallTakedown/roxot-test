@@ -92,14 +92,12 @@ class MatchBuilder
 
                     $players = $details['team1']['startPlayerNumbers'] ?? [];
                     if (count($players)) {
-                        //$this->goToPlay($match->getHomeTeam(), $players, $minute);
-                        $this->goToPlay($match->getHomeTeam(), $players, $period == 1 ? 0 : $minute); //С учётом времени происходит что-то странное. С одной стороны, матч начинается 
-                    }                                                                                 //на time==1 - можно подумать, что time означает текущую минуту матча, на которой 
-                    $players = $details['team2']['startPlayerNumbers'] ?? [];                         //происходит событие. С другой стороны, заканчивается матч почему-то на time==96 - 
-                    if (count($players)) {                                                            //будто бы time считает полные прошедшие минуты с начала матча. Корректировать 
-                        //$this->goToPlay($match->getAwayTeam(), $players, $minute);                  //исходные данные без консультации с автором, как мне кажется, слишком моветон,
-                        $this->goToPlay($match->getAwayTeam(), $players, $period == 1 ? 0 : $minute); //так что условимся, что time - это прошедшие полные минуты матча. Тогда первый 
-                    }                                                                                 //период начинается на time==0 - в это время мы и выводим команды на поле.
+                        $this->goToPlay($match->getHomeTeam(), $players, $period == 1 ? 0 : $minute); 
+                    }                                                                                 
+                    $players = $details['team2']['startPlayerNumbers'] ?? [];                         
+                    if (count($players)) {
+                        $this->goToPlay($match->getAwayTeam(), $players, $period == 1 ? 0 : $minute);
+                    }
                     break;
                 case 'finishPeriod':
                     if ($period === 2) {
